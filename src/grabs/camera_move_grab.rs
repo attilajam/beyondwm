@@ -60,7 +60,7 @@ impl PointerGrab<Beyond> for MoveCameraGrab {
         let super_held = data
             .seat
             .get_keyboard()
-            .map(|kb| kb.modifier_state().ctrl)
+            .map(|kb| kb.modifier_state().logo)
             .unwrap_or(false);
 
         if !super_held || !handle.current_pressed().contains(&BTN_LEFT) {
