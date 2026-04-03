@@ -1,0 +1,13 @@
+[package]
+name = "beyondwm"
+version = "0.1.0"
+edition = "2024"
+
+[dependencies]
+bitflags = "2.11.0"
+tracing-subscriber = { version = "0.3.23", features = ["env-filter", "fmt"] }
+
+[dependencies.smithay]
+git = "https://github.com/Smithay/smithay.git"
+default-features=false
+features = ["backend_winit", "wayland_frontend", "desktop"]
