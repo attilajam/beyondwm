@@ -84,7 +84,7 @@ impl Beyond {
 
                         let grab = MoveCameraGrab {
                             start_data,
-                            initial_camera_pos: self.camera_pos,
+                            initial_camera_pos: self.canvas_view.camera_pos,
                             initial_pointer_pos,
                         };
                         pointer.set_grab(self, grab, serial, Focus::Clear);
@@ -129,6 +129,22 @@ impl Beyond {
                 pointer.frame(self);
             }
             InputEvent::PointerAxis { event, .. } => {
+                let keyboard = self.seat.get_keyboard().unwrap();
+                let modifiers = keyboard.modifier_state();
+
+                if modifiers.ctrl {
+                    let vertical_amount = event.amount(Axis::Vertical).unwrap_or_else(|| {
+                        event.amount_v120(Axis::Vertical).unwrap_or(0.0) * 15.0 / 120.
+                    });
+
+                    if vertical_amount > 0.0 {
+                        self.canvas_view.camera_scale *= 1.1;
+                    } else if vertical_amount < 0.0 {
+                        self.canvas_view.camera_scale /= 1.1;
+                    }
+
+                    return;
+                }
                 let source = event.source();
 
                 let horizontal_amount = event.amount(Axis::Horizontal).unwrap_or_else(|| {

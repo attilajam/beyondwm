@@ -27,6 +27,26 @@ use smithay::{
     },
 };
 
+pub struct CanvasView {
+    pub camera_pos: Point<f64, Logical>,
+    pub camera_scale: f64,
+}
+
+impl CanvasView {
+    pub fn new() -> Self {
+        Self {
+            camera_pos: Point::<f64, Logical>::new(0.0, 0.0),
+            camera_scale: 1.0,
+        }
+    }
+    pub fn to_screen(&self, pos: Point<f64, Logical>) -> Point<f64, Logical> {
+        Point::from((
+            (pos.x - self.camera_pos.x) * self.camera_scale,
+            (pos.y - self.camera_pos.y) * self.camera_scale,
+        ))
+    }
+}
+
 pub struct Beyond {
     pub start_time: std::time::Instant,
     pub socket_name: OsString,
@@ -47,7 +67,7 @@ pub struct Beyond {
 
     pub seat: Seat<Self>,
 
-    pub camera_pos: Point<f64, Logical>,
+    pub canvas_view: CanvasView,
     pub unmapped_layer_surfaces: HashSet<WlSurface>,
     pub mapped_layer_surface: Option<WlSurface>,
 }
@@ -99,8 +119,6 @@ impl Beyond {
         // Get the loop signal, used to stop the event loop
         let loop_signal = event_loop.get_signal();
 
-        let camera_pos = Point::<f64, Logical>::new(0.0, 0.0);
-
         Self {
             start_time,
             display_handle: dh,
@@ -118,7 +136,7 @@ impl Beyond {
             data_device_state,
             popups,
             seat,
-            camera_pos,
+            canvas_view: CanvasView::new(),
             unmapped_layer_surfaces: HashSet::new(),
             mapped_layer_surface: Option::<WlSurface>::None,
         }

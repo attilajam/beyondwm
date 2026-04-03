@@ -32,7 +32,7 @@ impl PointerGrab<Beyond> for MoveCameraGrab {
         let current_pointer_pos = event.location - output_geo.loc.to_f64();
 
         let delta = current_pointer_pos - self.initial_pointer_pos;
-        data.camera_pos = self.initial_camera_pos - delta;
+        data.canvas_view.camera_pos = self.initial_camera_pos - delta;
     }
 
     fn relative_motion(
@@ -60,7 +60,7 @@ impl PointerGrab<Beyond> for MoveCameraGrab {
         let super_held = data
             .seat
             .get_keyboard()
-            .map(|kb| kb.modifier_state().logo)
+            .map(|kb| kb.modifier_state().ctrl)
             .unwrap_or(false);
 
         if !super_held || !handle.current_pressed().contains(&BTN_LEFT) {
