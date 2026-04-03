@@ -32,7 +32,11 @@ impl PointerGrab<Beyond> for MoveCameraGrab {
         let current_pointer_pos = event.location - output_geo.loc.to_f64();
 
         let delta = current_pointer_pos - self.initial_pointer_pos;
-        data.canvas_view.camera_pos = self.initial_camera_pos - delta;
+        data.canvas_view.camera_pos.x =
+            self.initial_camera_pos.x - delta.x / data.canvas_view.camera_scale;
+
+        data.canvas_view.camera_pos.y =
+            self.initial_camera_pos.y - delta.y / data.canvas_view.camera_scale;
     }
 
     fn relative_motion(
