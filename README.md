@@ -1,7 +1,7 @@
 # BeyondWM
 
-An infinite canvas window manager built using smithay. Big thanks to [https://github.com/Smithay/smithay/tree/master][smithay], [https://github.com/Smithay/smithay/tree/master/smallvil][smallvile], and [https://github.com/niri-wm/niri/tree/main][niri] for making this possible.
-
+An infinite canvas window manager built using smithay. Big thanks to [smithay](https://github.com/Smithay/smithay/tree/master), [smallvile](https://github.com/Smithay/smithay/tree/master/smallvil), and [niri](https://github.com/niri-wm/niri/tree/main) for making this possible.
+  
 ## Building
 
 ```bash
